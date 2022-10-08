@@ -59,7 +59,8 @@ class Forecaster():
                 self.results[dataset_name][category]['model'] = model
                 self.results[dataset_name][category]['error'] = error
                 self.results[dataset_name][category]['test'] = test
-                
+
+    @staticmethod           
     def get_ts(self,dataset_name,category):
         _dataset = getattr(self.dataset,dataset_name)
         ts = _dataset[[category]]
@@ -69,7 +70,8 @@ class Forecaster():
         train = ts[:train_idx]
         test = ts[train_idx:]
         return train,test
-
+    
+    @staticmethod
     def run_prophet(self,dataset_name,category,include_history=False):
         train,test = self.get_ts(dataset_name,category)
         periods = len(test)
