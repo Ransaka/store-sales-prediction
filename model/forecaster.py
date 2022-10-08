@@ -6,15 +6,19 @@ from types import NoneType
 from pandas import DataFrame
 
 class Forecaster():
-    """The ABC forecasting model"""
+    """ 
+    The ABC forecasting model
+    
+    dataset: This should be a ShopDataset and should be call .define_regional_datasets() method prior adding to this.
+    holidays: holidays dataframe. This should be a prophet compatible dataframe. Info: https://facebook.github.io/prophet/docs/seasonality,_holiday_effects,_and_regressors.html#modeling-holidays-and-special-events
+    test_size: this should be a float value between 0 and 1. Depending on it's value 
+    each regional dataset will be splitted into train and test. Test dataset will use for calculate the model performance.
+    """
     def __init__(self,dataset,holidays,test_size=0.2) -> None:
         assert isinstance(dataset,ShopDataset)
         assert 0 < test_size < 1,"test size should be in range 0 and 1"
         """
-        dataset: This should be a ShopDataset and should be call .define_regional_datasets() method prior adding to this.
-        holidays: holidays dataframe. This should be a prophet compatible dataframe. Info: https://facebook.github.io/prophet/docs/seasonality,_holiday_effects,_and_regressors.html#modeling-holidays-and-special-events
-        test_size: this should be a float value between 0 and 1. Depending on it's value 
-        each regional dataset will be splitted into train and test. Test dataset will use for calculate the model performance.
+        
         """
         self.dataset = dataset 
         self.holidays = holidays
