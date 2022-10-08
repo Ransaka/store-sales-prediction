@@ -2,8 +2,9 @@ from data.dataset import ShopDataset
 from tqdm import tqdm
 from prophet import Prophet
 from sklearn import metrics
-from types import NoneType
 from pandas import DataFrame
+
+NoneType  =type(None)
 
 class Forecaster():
     """ 
