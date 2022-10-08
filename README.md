@@ -1,6 +1,6 @@
 # Store sales prediction (Multiple forecasting problem)
 
-In this task I have build sales deman forecating model for each product(M) in each region (N). Under the hood this train *MxN* models.
+In this task I have build sales demand forecating model for each product(M) in each region (N). Under the hood this train *MxN* models.
 
 #### STEPS
 - Raw dataset input into the $ShopDataset class$. Inside that class we can define all the preprocessing steps nesssary for modeling. At this case I'm using null value treatment and outlier treatment. When we initaite instance of $ShopDataset class$ we can call `define_regional_datsets()` method. It will intiate datasets for each regions in the raw dataset.
