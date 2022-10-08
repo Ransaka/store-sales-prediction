@@ -3,7 +3,7 @@ from pandas import pivot_table,DatetimeIndex,DataFrame
 from tqdm import tqdm
 
 class ShopDataset():
-    "WonderCo dataset class"
+    "The dataset class"
     def __init__(self,data,region_column,product_col,date_column,target_col) -> None:
         """
         data: pandas dataframe including all information of invoice sales/return 
