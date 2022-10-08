@@ -1,13 +1,14 @@
-from data.dataset import WonderCoDataset
+from data.dataset import ShopDataset
 from tqdm import tqdm
 from prophet import Prophet
 from sklearn import metrics
+from types import NoneType
+from pandas import DataFrame
 
-
-class WonderCoForecaster():
+class Forecaster():
     """The wonderco forecasting model"""
     def __init__(self,dataset,holidays,test_size=0.2) -> None:
-        assert isinstance(dataset,WonderCoDataset)
+        assert isinstance(dataset,ShopDataset)
         assert 0 < test_size < 1,"test size should be in range 0 and 1"
         """
         dataset: This should be a WonderCoDataset and should be call .define_regional_datasets() method prior adding to this.
@@ -19,7 +20,27 @@ class WonderCoForecaster():
         self.holidays = holidays
         self.test_size = test_size
 
-    def fit(self,limit=None,include_history=False,add_country_holidays=False,weekly_seasonality='auto',yearly_seasonality='auto'):
+    def fit(
+        self,
+        limit=None,
+        include_history=False,
+        add_country_holidays=False,
+        weekly_seasonality='auto',
+        yearly_seasonality='auto'
+        ):
+        """
+        limit None or integer: if you want to limit models, you may set this to desired no. of models
+        include_history: prophet compatible parameter. See Prophet parameters for more info.
+        weekly_seasonality: prophet compatible parameter. See Prophet parameters for more info.
+        yearly_seasonality: prophet compatible parameter. See Prophet parameters for more info.
+        add_country_holidays:If you want to add country holydays, you may add holiday dataframe. This sould be compatible with `Prophet`
+        """
+        assert isinstance(limit,(NoneType,int))
+        assert isinstance(include_history,bool)
+        assert isinstance(add_country_holidays,bool)
+        assert isinstance(weekly_seasonality,(str,DataFrame,bool))
+        assert isinstance(yearly_seasonality,(str,DataFrame,bool))
+
         self.add_country_holidays = add_country_holidays
         self.yearly_seasonality = yearly_seasonality
         self.weekly_seasonality = weekly_seasonality
@@ -44,6 +65,7 @@ class WonderCoForecaster():
         train = ts[:train_idx]
         test = ts[train_idx:]
         return train,test
+
     def run_prophet(self,dataset_name,category,include_history=False):
         train,test = self.get_ts(dataset_name,category)
         periods = len(test)

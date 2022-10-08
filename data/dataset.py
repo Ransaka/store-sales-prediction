@@ -2,7 +2,7 @@ from utils.utils_ import remove_outliers
 import pandas as pd
 from tqdm import tqdm
 
-class WonderCoDataset():
+class ShopDataset():
     "WonderCo dataset class"
     def __init__(self,data,region_column,product_col,date_column,target_col) -> None:
         """
@@ -16,6 +16,7 @@ class WonderCoDataset():
         assert isinstance(region_column,str),"`region_columns` must be a str type"
         assert isinstance(product_col,str),"`product_col` must be a str type"
         assert isinstance(date_column,str),"`date_column` must be a str type"
+        
         self.data = remove_outliers(data,target_col)
         self.target_col = target_col
         self.region_col = region_column
