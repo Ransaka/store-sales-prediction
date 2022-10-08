@@ -1,5 +1,5 @@
 from utils.utils_ import remove_outliers
-import pandas as pd
+from pandas import pivot_table,DatetimeIndex,DataFrame
 from tqdm import tqdm
 
 class ShopDataset():
@@ -12,11 +12,11 @@ class ShopDataset():
         date_column: time stamp column in the dataset
         target_col: the column name, that we are going to forecast
         """
-        assert isinstance(data,pd.DataFrame),"data must be a pandas dataframe"
+        assert isinstance(data,DataFrame),"data must be a pandas dataframe"
         assert isinstance(region_column,str),"`region_columns` must be a str type"
         assert isinstance(product_col,str),"`product_col` must be a str type"
         assert isinstance(date_column,str),"`date_column` must be a str type"
-        
+
         self.data = remove_outliers(data,target_col)
         self.target_col = target_col
         self.region_col = region_column
@@ -24,14 +24,14 @@ class ShopDataset():
         self.date_column = date_column
         self.regions = data[region_column].unique().tolist()
         self.products = data[product_col].unique().tolist()
-        self.data[date_column] = pd.DatetimeIndex(self.data[date_column])
+        self.data[date_column] = DatetimeIndex(self.data[date_column])
 
     def define_regional_datasets(self):
         """This will define a datasets for each regions in the dataset. User can access the individual region data using `dataset_instance.regoin_{i}_data`"""
         setattr(self,'dataset_names',[])
         for region in tqdm(self.regions):
             d_ = self.data.query(f"{self.region_col}=='{region}'")
-            regional_data = pd.pivot_table(
+            regional_data = pivot_table(
                 data = d_,
                 index=self.date_column,
                 values=self.target_col,
